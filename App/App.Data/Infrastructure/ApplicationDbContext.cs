@@ -22,6 +22,7 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
     public DbSet<BlogTagEntity> BlogTags { get; set; }
     public DbSet<RelBlogTagEntity> RelBlogTags { get; set; }
     public DbSet<RelBlogCategoryEntity> RelBlogCategories { get; set; }
+    public DbSet<SellerRequestEntity> SellerRequests { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

@@ -7,22 +7,28 @@ using Microsoft.EntityFrameworkCore;
 namespace App.Admin.Controllers
 {
     [Route("/categories")]
-    public class CategoryController(ApplicationDbContext dbContext) : Controller
+    public class CategoryController : Controller
     {
+        private readonly IDataRepository<CategoryEntity> _categoryRepository;
+
+        public CategoryController(IDataRepository<CategoryEntity> categoryRepository)
+        {
+            _categoryRepository = categoryRepository;
+        }
+
         [HttpGet]
         public async Task<IActionResult> List()
         {
-            var categories = await dbContext.Categories
-                .Select(c => new CategoryListViewModel
-                {
-                    Id = c.Id,
-                    Name = c.Name,
-                    Color = c.Color,
-                    IconCssClass = c.IconCssClass
-                })
-                .ToListAsync();
+            var categories = await _categoryRepository.GetAllAsync();
+            var categoryListViewModel = categories.Select(c => new CategoryListViewModel
+            {
+                Id = c.Id,
+                Name = c.Name,
+                Color = c.Color,
+                IconCssClass = c.IconCssClass
+            }).ToList();
 
-            return View(categories);
+            return View(categoryListViewModel);
         }
 
         [Route("create")]
@@ -49,8 +55,7 @@ namespace App.Admin.Controllers
                 CreatedAt = DateTime.UtcNow
             };
 
-            dbContext.Categories.Add(categoryEntity);
-            await dbContext.SaveChangesAsync();
+            await _categoryRepository.AddAsync(categoryEntity);
 
             ViewBag.SuccessMessage = "Kategori başarıyla oluşturuldu.";
             ModelState.Clear();
@@ -62,8 +67,8 @@ namespace App.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit([FromRoute] int categoryId)
         {
-            var category = await dbContext.Categories.FindAsync(categoryId);
-            if (category is null)
+            var category = await _categoryRepository.GetByIdAsync(categoryId);
+            if (category == null)
             {
                 return NotFound();
             }
@@ -87,8 +92,8 @@ namespace App.Admin.Controllers
                 return View(editCategoryModel);
             }
 
-            var category = await dbContext.Categories.FindAsync(categoryId);
-            if (category is null)
+            var category = await _categoryRepository.GetByIdAsync(categoryId);
+            if (category == null)
             {
                 return NotFound();
             }
@@ -96,8 +101,7 @@ namespace App.Admin.Controllers
             category.Name = editCategoryModel.Name;
             category.Color = editCategoryModel.Color;
 
-            dbContext.Categories.Update(category);
-            await dbContext.SaveChangesAsync();
+            await _categoryRepository.UpdateAsync(category);
 
             ViewBag.SuccessMessage = "Kategori başarıyla güncellendi.";
             ModelState.Clear();
@@ -109,14 +113,13 @@ namespace App.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> Delete([FromRoute] int categoryId)
         {
-            var category = await dbContext.Categories.FindAsync(categoryId);
-            if (category is null)
+            var category = await _categoryRepository.GetByIdAsync(categoryId);
+            if (category == null)
             {
                 return NotFound();
             }
 
-            dbContext.Categories.Remove(category);
-            await dbContext.SaveChangesAsync();
+            await _categoryRepository.DeleteAsync(categoryId);
 
             return RedirectToAction(nameof(List));
         }

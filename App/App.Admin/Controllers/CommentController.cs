@@ -1,23 +1,33 @@
-﻿using App.Data.Infrastructure;
+﻿using App.Data.Entities;
+using App.Data.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 
 namespace App.Admin.Controllers
 {
     [Route("/comment")]
-    public class CommentController(ApplicationDbContext dbContext) : Controller
+    public class CommentController : Controller
     {
+        private readonly IDataRepository<ProductCommentEntity> _commentRepository;
+
+        public CommentController(IDataRepository<ProductCommentEntity> commentRepository)
+        {
+            _commentRepository = commentRepository;
+        }
+
         [Route("")]
         [HttpGet]
-        public IActionResult List()
+        public async Task<IActionResult> List()
         {
-
-            return View();
+            var comments = await _commentRepository.GetAllAsync();
+            return View(comments);
         }
 
         [Route("{commentId:int}/approve")]
         [HttpGet]
-        public IActionResult Approve([FromRoute] int commentId)
+        public async Task<IActionResult> Approve([FromRoute] int commentId)
         {
+            var comment = await _commentRepository.GetByIdAsync(commentId);
+
             return RedirectToAction(nameof(List));
         }
     }

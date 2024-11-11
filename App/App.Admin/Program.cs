@@ -7,6 +7,9 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("SqlServer")));
 
+// Register DataRepository for Dependency Injection
+builder.Services.AddScoped(typeof(IDataRepository<>), typeof(DataRepository<>));
+
 var app = builder.Build();
 
 if (!app.Environment.IsDevelopment())

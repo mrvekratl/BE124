@@ -1,0 +1,141 @@
+C:\Users\Monster\Downloads\Gorev-13-Cozum (2)\App\App.Admin\bin\Debug\net8.0\appsettings.Development.json
+C:\Users\Monster\Downloads\Gorev-13-Cozum (2)\App\App.Admin\bin\Debug\net8.0\appsettings.json
+C:\Users\Monster\Downloads\Gorev-13-Cozum (2)\App\App.Admin\bin\Debug\net8.0\App.Admin.staticwebassets.runtime.json
+C:\Users\Monster\Downloads\Gorev-13-Cozum (2)\App\App.Admin\bin\Debug\net8.0\App.Admin.exe
+C:\Users\Monster\Downloads\Gorev-13-Cozum (2)\App\App.Admin\bin\Debug\net8.0\App.Admin.deps.json
+C:\Users\Monster\Downloads\Gorev-13-Cozum (2)\App\App.Admin\bin\Debug\net8.0\App.Admin.runtimeconfig.json
+C:\Users\Monster\Downloads\Gorev-13-Cozum (2)\App\App.Admin\bin\Debug\net8.0\App.Admin.dll
+C:\Users\Monster\Downloads\Gorev-13-Cozum (2)\App\App.Admin\bin\Debug\net8.0\App.Admin.pdb
+C:\Users\Monster\Downloads\Gorev-13-Cozum (2)\App\App.Admin\bin\Debug\net8.0\Azure.Core.dll
+C:\Users\Monster\Downloads\Gorev-13-Cozum (2)\App\App.Admin\bin\Debug\net8.0\Azure.Identity.dll
+C:\Users\Monster\Downloads\Gorev-13-Cozum (2)\App\App.Admin\bin\Debug\net8.0\Microsoft.Bcl.AsyncInterfaces.dll
+C:\Users\Monster\Downloads\Gorev-13-Cozum (2)\App\App.Admin\bin\Debug\net8.0\Microsoft.Data.SqlClient.dll
+C:\Users\Monster\Downloads\Gorev-13-Cozum (2)\App\App.Admin\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.dll
+C:\Users\Monster\Downloads\Gorev-13-Cozum (2)\App\App.Admin\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.Abstractions.dll
+C:\Users\Monster\Downloads\Gorev-13-Cozum (2)\App\App.Admin\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.Relational.dll
+C:\Users\Monster\Downloads\Gorev-13-Cozum (2)\App\App.Admin\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.SqlServer.dll
+C:\Users\Monster\Downloads\Gorev-13-Cozum (2)\App\App.Admin\bin\Debug\net8.0\Microsoft.Identity.Client.dll
+C:\Users\Monster\Downloads\Gorev-13-Cozum (2)\App\App.Admin\bin\Debug\net8.0\Microsoft.Identity.Client.Extensions.Msal.dll
+C:\Users\Monster\Downloads\Gorev-13-Cozum (2)\App\App.Admin\bin\Debug\net8.0\Microsoft.IdentityModel.Abstractions.dll
+C:\Users\Monster\Downloads\Gorev-13-Cozum (2)\App\App.Admin\bin\Debug\net8.0\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Users\Monster\Downloads\Gorev-13-Cozum (2)\App\App.Admin\bin\Debug\net8.0\Microsoft.IdentityModel.Logging.dll
+C:\Users\Monster\Downloads\Gorev-13-Cozum (2)\App\App.Admin\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.dll
+C:\Users\Monster\Downloads\Gorev-13-Cozum (2)\App\App.Admin\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+C:\Users\Monster\Downloads\Gorev-13-Cozum (2)\App\App.Admin\bin\Debug\net8.0\Microsoft.IdentityModel.Tokens.dll
+C:\Users\Monster\Downloads\Gorev-13-Cozum (2)\App\App.Admin\bin\Debug\net8.0\Microsoft.SqlServer.Server.dll
+C:\Users\Monster\Downloads\Gorev-13-Cozum (2)\App\App.Admin\bin\Debug\net8.0\Microsoft.Win32.SystemEvents.dll
+C:\Users\Monster\Downloads\Gorev-13-Cozum (2)\App\App.Admin\bin\Debug\net8.0\System.Configuration.ConfigurationManager.dll
+C:\Users\Monster\Downloads\Gorev-13-Cozum (2)\App\App.Admin\bin\Debug\net8.0\System.Drawing.Common.dll
+C:\Users\Monster\Downloads\Gorev-13-Cozum (2)\App\App.Admin\bin\Debug\net8.0\System.IdentityModel.Tokens.Jwt.dll
+C:\Users\Monster\Downloads\Gorev-13-Cozum (2)\App\App.Admin\bin\Debug\net8.0\System.Memory.Data.dll
+C:\Users\Monster\Downloads\Gorev-13-Cozum (2)\App\App.Admin\bin\Debug\net8.0\System.Runtime.Caching.dll
+C:\Users\Monster\Downloads\Gorev-13-Cozum (2)\App\App.Admin\bin\Debug\net8.0\System.Security.Cryptography.ProtectedData.dll
+C:\Users\Monster\Downloads\Gorev-13-Cozum (2)\App\App.Admin\bin\Debug\net8.0\System.Security.Permissions.dll
+C:\Users\Monster\Downloads\Gorev-13-Cozum (2)\App\App.Admin\bin\Debug\net8.0\System.Windows.Extensions.dll
+C:\Users\Monster\Downloads\Gorev-13-Cozum (2)\App\App.Admin\bin\Debug\net8.0\runtimes\unix\lib\net6.0\Microsoft.Data.SqlClient.dll
+C:\Users\Monster\Downloads\Gorev-13-Cozum (2)\App\App.Admin\bin\Debug\net8.0\runtimes\win\lib\net6.0\Microsoft.Data.SqlClient.dll
+C:\Users\Monster\Downloads\Gorev-13-Cozum (2)\App\App.Admin\bin\Debug\net8.0\runtimes\win-arm\native\Microsoft.Data.SqlClient.SNI.dll
+C:\Users\Monster\Downloads\Gorev-13-Cozum (2)\App\App.Admin\bin\Debug\net8.0\runtimes\win-arm64\native\Microsoft.Data.SqlClient.SNI.dll
+C:\Users\Monster\Downloads\Gorev-13-Cozum (2)\App\App.Admin\bin\Debug\net8.0\runtimes\win-x64\native\Microsoft.Data.SqlClient.SNI.dll
+C:\Users\Monster\Downloads\Gorev-13-Cozum (2)\App\App.Admin\bin\Debug\net8.0\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.dll
+C:\Users\Monster\Downloads\Gorev-13-Cozum (2)\App\App.Admin\bin\Debug\net8.0\runtimes\win\lib\net6.0\Microsoft.Win32.SystemEvents.dll
+C:\Users\Monster\Downloads\Gorev-13-Cozum (2)\App\App.Admin\bin\Debug\net8.0\runtimes\unix\lib\net6.0\System.Drawing.Common.dll
+C:\Users\Monster\Downloads\Gorev-13-Cozum (2)\App\App.Admin\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Drawing.Common.dll
+C:\Users\Monster\Downloads\Gorev-13-Cozum (2)\App\App.Admin\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Runtime.Caching.dll
+C:\Users\Monster\Downloads\Gorev-13-Cozum (2)\App\App.Admin\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Security.Cryptography.ProtectedData.dll
+C:\Users\Monster\Downloads\Gorev-13-Cozum (2)\App\App.Admin\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
+C:\Users\Monster\Downloads\Gorev-13-Cozum (2)\App\App.Admin\bin\Debug\net8.0\App.Data.dll
+C:\Users\Monster\Downloads\Gorev-13-Cozum (2)\App\App.Admin\bin\Debug\net8.0\App.Data.pdb
+C:\Users\Monster\Downloads\Gorev-13-Cozum (2)\App\App.Admin\obj\Debug\net8.0\App.Admin.csproj.AssemblyReference.cache
+C:\Users\Monster\Downloads\Gorev-13-Cozum (2)\App\App.Admin\obj\Debug\net8.0\App.Admin.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Monster\Downloads\Gorev-13-Cozum (2)\App\App.Admin\obj\Debug\net8.0\App.Admin.AssemblyInfoInputs.cache
+C:\Users\Monster\Downloads\Gorev-13-Cozum (2)\App\App.Admin\obj\Debug\net8.0\App.Admin.AssemblyInfo.cs
+C:\Users\Monster\Downloads\Gorev-13-Cozum (2)\App\App.Admin\obj\Debug\net8.0\App.Admin.csproj.CoreCompileInputs.cache
+C:\Users\Monster\Downloads\Gorev-13-Cozum (2)\App\App.Admin\obj\Debug\net8.0\App.Admin.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\Monster\Downloads\Gorev-13-Cozum (2)\App\App.Admin\obj\Debug\net8.0\App.Admin.RazorAssemblyInfo.cache
+C:\Users\Monster\Downloads\Gorev-13-Cozum (2)\App\App.Admin\obj\Debug\net8.0\App.Admin.RazorAssemblyInfo.cs
+C:\Users\Monster\Downloads\Gorev-13-Cozum (2)\App\App.Admin\obj\Debug\net8.0\staticwebassets.build.json
+C:\Users\Monster\Downloads\Gorev-13-Cozum (2)\App\App.Admin\obj\Debug\net8.0\staticwebassets.development.json
+C:\Users\Monster\Downloads\Gorev-13-Cozum (2)\App\App.Admin\obj\Debug\net8.0\staticwebassets\msbuild.App.Admin.Microsoft.AspNetCore.StaticWebAssets.props
+C:\Users\Monster\Downloads\Gorev-13-Cozum (2)\App\App.Admin\obj\Debug\net8.0\staticwebassets\msbuild.build.App.Admin.props
+C:\Users\Monster\Downloads\Gorev-13-Cozum (2)\App\App.Admin\obj\Debug\net8.0\staticwebassets\msbuild.buildMultiTargeting.App.Admin.props
+C:\Users\Monster\Downloads\Gorev-13-Cozum (2)\App\App.Admin\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.App.Admin.props
+C:\Users\Monster\Downloads\Gorev-13-Cozum (2)\App\App.Admin\obj\Debug\net8.0\staticwebassets.pack.json
+C:\Users\Monster\Downloads\Gorev-13-Cozum (2)\App\App.Admin\obj\Debug\net8.0\scopedcss\bundle\App.Admin.styles.css
+C:\Users\Monster\Downloads\Gorev-13-Cozum (2)\App\App.Admin\obj\Debug\net8.0\App.Admin.csproj.Up2Date
+C:\Users\Monster\Downloads\Gorev-13-Cozum (2)\App\App.Admin\obj\Debug\net8.0\App.Admin.dll
+C:\Users\Monster\Downloads\Gorev-13-Cozum (2)\App\App.Admin\obj\Debug\net8.0\refint\App.Admin.dll
+C:\Users\Monster\Downloads\Gorev-13-Cozum (2)\App\App.Admin\obj\Debug\net8.0\App.Admin.pdb
+C:\Users\Monster\Downloads\Gorev-13-Cozum (2)\App\App.Admin\obj\Debug\net8.0\App.Admin.genruntimeconfig.cache
+C:\Users\Monster\Downloads\Gorev-13-Cozum (2)\App\App.Admin\obj\Debug\net8.0\ref\App.Admin.dll
+C:\Users\Monster\Desktop\BE124\GÖREV_14\BE124\App\App.Admin\bin\Debug\net8.0\appsettings.Development.json
+C:\Users\Monster\Desktop\BE124\GÖREV_14\BE124\App\App.Admin\bin\Debug\net8.0\appsettings.json
+C:\Users\Monster\Desktop\BE124\GÖREV_14\BE124\App\App.Admin\bin\Debug\net8.0\App.Admin.staticwebassets.runtime.json
+C:\Users\Monster\Desktop\BE124\GÖREV_14\BE124\App\App.Admin\bin\Debug\net8.0\App.Admin.exe
+C:\Users\Monster\Desktop\BE124\GÖREV_14\BE124\App\App.Admin\bin\Debug\net8.0\App.Admin.deps.json
+C:\Users\Monster\Desktop\BE124\GÖREV_14\BE124\App\App.Admin\bin\Debug\net8.0\App.Admin.runtimeconfig.json
+C:\Users\Monster\Desktop\BE124\GÖREV_14\BE124\App\App.Admin\bin\Debug\net8.0\App.Admin.dll
+C:\Users\Monster\Desktop\BE124\GÖREV_14\BE124\App\App.Admin\bin\Debug\net8.0\App.Admin.pdb
+C:\Users\Monster\Desktop\BE124\GÖREV_14\BE124\App\App.Admin\bin\Debug\net8.0\Azure.Core.dll
+C:\Users\Monster\Desktop\BE124\GÖREV_14\BE124\App\App.Admin\bin\Debug\net8.0\Azure.Identity.dll
+C:\Users\Monster\Desktop\BE124\GÖREV_14\BE124\App\App.Admin\bin\Debug\net8.0\Microsoft.Bcl.AsyncInterfaces.dll
+C:\Users\Monster\Desktop\BE124\GÖREV_14\BE124\App\App.Admin\bin\Debug\net8.0\Microsoft.Data.SqlClient.dll
+C:\Users\Monster\Desktop\BE124\GÖREV_14\BE124\App\App.Admin\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.dll
+C:\Users\Monster\Desktop\BE124\GÖREV_14\BE124\App\App.Admin\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.Abstractions.dll
+C:\Users\Monster\Desktop\BE124\GÖREV_14\BE124\App\App.Admin\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.Relational.dll
+C:\Users\Monster\Desktop\BE124\GÖREV_14\BE124\App\App.Admin\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.SqlServer.dll
+C:\Users\Monster\Desktop\BE124\GÖREV_14\BE124\App\App.Admin\bin\Debug\net8.0\Microsoft.Identity.Client.dll
+C:\Users\Monster\Desktop\BE124\GÖREV_14\BE124\App\App.Admin\bin\Debug\net8.0\Microsoft.Identity.Client.Extensions.Msal.dll
+C:\Users\Monster\Desktop\BE124\GÖREV_14\BE124\App\App.Admin\bin\Debug\net8.0\Microsoft.IdentityModel.Abstractions.dll
+C:\Users\Monster\Desktop\BE124\GÖREV_14\BE124\App\App.Admin\bin\Debug\net8.0\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Users\Monster\Desktop\BE124\GÖREV_14\BE124\App\App.Admin\bin\Debug\net8.0\Microsoft.IdentityModel.Logging.dll
+C:\Users\Monster\Desktop\BE124\GÖREV_14\BE124\App\App.Admin\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.dll
+C:\Users\Monster\Desktop\BE124\GÖREV_14\BE124\App\App.Admin\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+C:\Users\Monster\Desktop\BE124\GÖREV_14\BE124\App\App.Admin\bin\Debug\net8.0\Microsoft.IdentityModel.Tokens.dll
+C:\Users\Monster\Desktop\BE124\GÖREV_14\BE124\App\App.Admin\bin\Debug\net8.0\Microsoft.SqlServer.Server.dll
+C:\Users\Monster\Desktop\BE124\GÖREV_14\BE124\App\App.Admin\bin\Debug\net8.0\Microsoft.Win32.SystemEvents.dll
+C:\Users\Monster\Desktop\BE124\GÖREV_14\BE124\App\App.Admin\bin\Debug\net8.0\System.Configuration.ConfigurationManager.dll
+C:\Users\Monster\Desktop\BE124\GÖREV_14\BE124\App\App.Admin\bin\Debug\net8.0\System.Drawing.Common.dll
+C:\Users\Monster\Desktop\BE124\GÖREV_14\BE124\App\App.Admin\bin\Debug\net8.0\System.IdentityModel.Tokens.Jwt.dll
+C:\Users\Monster\Desktop\BE124\GÖREV_14\BE124\App\App.Admin\bin\Debug\net8.0\System.Memory.Data.dll
+C:\Users\Monster\Desktop\BE124\GÖREV_14\BE124\App\App.Admin\bin\Debug\net8.0\System.Runtime.Caching.dll
+C:\Users\Monster\Desktop\BE124\GÖREV_14\BE124\App\App.Admin\bin\Debug\net8.0\System.Security.Cryptography.ProtectedData.dll
+C:\Users\Monster\Desktop\BE124\GÖREV_14\BE124\App\App.Admin\bin\Debug\net8.0\System.Security.Permissions.dll
+C:\Users\Monster\Desktop\BE124\GÖREV_14\BE124\App\App.Admin\bin\Debug\net8.0\System.Windows.Extensions.dll
+C:\Users\Monster\Desktop\BE124\GÖREV_14\BE124\App\App.Admin\bin\Debug\net8.0\runtimes\unix\lib\net6.0\Microsoft.Data.SqlClient.dll
+C:\Users\Monster\Desktop\BE124\GÖREV_14\BE124\App\App.Admin\bin\Debug\net8.0\runtimes\win\lib\net6.0\Microsoft.Data.SqlClient.dll
+C:\Users\Monster\Desktop\BE124\GÖREV_14\BE124\App\App.Admin\bin\Debug\net8.0\runtimes\win-arm\native\Microsoft.Data.SqlClient.SNI.dll
+C:\Users\Monster\Desktop\BE124\GÖREV_14\BE124\App\App.Admin\bin\Debug\net8.0\runtimes\win-arm64\native\Microsoft.Data.SqlClient.SNI.dll
+C:\Users\Monster\Desktop\BE124\GÖREV_14\BE124\App\App.Admin\bin\Debug\net8.0\runtimes\win-x64\native\Microsoft.Data.SqlClient.SNI.dll
+C:\Users\Monster\Desktop\BE124\GÖREV_14\BE124\App\App.Admin\bin\Debug\net8.0\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.dll
+C:\Users\Monster\Desktop\BE124\GÖREV_14\BE124\App\App.Admin\bin\Debug\net8.0\runtimes\win\lib\net6.0\Microsoft.Win32.SystemEvents.dll
+C:\Users\Monster\Desktop\BE124\GÖREV_14\BE124\App\App.Admin\bin\Debug\net8.0\runtimes\unix\lib\net6.0\System.Drawing.Common.dll
+C:\Users\Monster\Desktop\BE124\GÖREV_14\BE124\App\App.Admin\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Drawing.Common.dll
+C:\Users\Monster\Desktop\BE124\GÖREV_14\BE124\App\App.Admin\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Runtime.Caching.dll
+C:\Users\Monster\Desktop\BE124\GÖREV_14\BE124\App\App.Admin\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Security.Cryptography.ProtectedData.dll
+C:\Users\Monster\Desktop\BE124\GÖREV_14\BE124\App\App.Admin\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
+C:\Users\Monster\Desktop\BE124\GÖREV_14\BE124\App\App.Admin\bin\Debug\net8.0\App.Data.dll
+C:\Users\Monster\Desktop\BE124\GÖREV_14\BE124\App\App.Admin\bin\Debug\net8.0\App.Data.pdb
+C:\Users\Monster\Desktop\BE124\GÖREV_14\BE124\App\App.Admin\obj\Debug\net8.0\App.Admin.csproj.AssemblyReference.cache
+C:\Users\Monster\Desktop\BE124\GÖREV_14\BE124\App\App.Admin\obj\Debug\net8.0\App.Admin.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Monster\Desktop\BE124\GÖREV_14\BE124\App\App.Admin\obj\Debug\net8.0\App.Admin.AssemblyInfoInputs.cache
+C:\Users\Monster\Desktop\BE124\GÖREV_14\BE124\App\App.Admin\obj\Debug\net8.0\App.Admin.AssemblyInfo.cs
+C:\Users\Monster\Desktop\BE124\GÖREV_14\BE124\App\App.Admin\obj\Debug\net8.0\App.Admin.csproj.CoreCompileInputs.cache
+C:\Users\Monster\Desktop\BE124\GÖREV_14\BE124\App\App.Admin\obj\Debug\net8.0\App.Admin.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\Monster\Desktop\BE124\GÖREV_14\BE124\App\App.Admin\obj\Debug\net8.0\App.Admin.RazorAssemblyInfo.cache
+C:\Users\Monster\Desktop\BE124\GÖREV_14\BE124\App\App.Admin\obj\Debug\net8.0\App.Admin.RazorAssemblyInfo.cs
+C:\Users\Monster\Desktop\BE124\GÖREV_14\BE124\App\App.Admin\obj\Debug\net8.0\App.Admin.sourcelink.json
+C:\Users\Monster\Desktop\BE124\GÖREV_14\BE124\App\App.Admin\obj\Debug\net8.0\staticwebassets.build.json
+C:\Users\Monster\Desktop\BE124\GÖREV_14\BE124\App\App.Admin\obj\Debug\net8.0\staticwebassets.development.json
+C:\Users\Monster\Desktop\BE124\GÖREV_14\BE124\App\App.Admin\obj\Debug\net8.0\staticwebassets\msbuild.App.Admin.Microsoft.AspNetCore.StaticWebAssets.props
+C:\Users\Monster\Desktop\BE124\GÖREV_14\BE124\App\App.Admin\obj\Debug\net8.0\staticwebassets\msbuild.build.App.Admin.props
+C:\Users\Monster\Desktop\BE124\GÖREV_14\BE124\App\App.Admin\obj\Debug\net8.0\staticwebassets\msbuild.buildMultiTargeting.App.Admin.props
+C:\Users\Monster\Desktop\BE124\GÖREV_14\BE124\App\App.Admin\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.App.Admin.props
+C:\Users\Monster\Desktop\BE124\GÖREV_14\BE124\App\App.Admin\obj\Debug\net8.0\staticwebassets.pack.json
+C:\Users\Monster\Desktop\BE124\GÖREV_14\BE124\App\App.Admin\obj\Debug\net8.0\scopedcss\bundle\App.Admin.styles.css
+C:\Users\Monster\Desktop\BE124\GÖREV_14\BE124\App\App.Admin\obj\Debug\net8.0\App.Admin.csproj.Up2Date
+C:\Users\Monster\Desktop\BE124\GÖREV_14\BE124\App\App.Admin\obj\Debug\net8.0\App.Admin.dll
+C:\Users\Monster\Desktop\BE124\GÖREV_14\BE124\App\App.Admin\obj\Debug\net8.0\refint\App.Admin.dll
+C:\Users\Monster\Desktop\BE124\GÖREV_14\BE124\App\App.Admin\obj\Debug\net8.0\App.Admin.pdb
+C:\Users\Monster\Desktop\BE124\GÖREV_14\BE124\App\App.Admin\obj\Debug\net8.0\App.Admin.genruntimeconfig.cache
+C:\Users\Monster\Desktop\BE124\GÖREV_14\BE124\App\App.Admin\obj\Debug\net8.0\ref\App.Admin.dll

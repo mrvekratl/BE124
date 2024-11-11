@@ -1,17 +1,28 @@
 ﻿using App.Admin.Models.ViewModels;
+using App.Data.Entities;
 using App.Data.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace App.Admin.Controllers
 {
-    public class UserController(ApplicationDbContext dbContext) : Controller
+    public class UserController : Controller
     {
+        private readonly IDataRepository<UserEntity> _userRepository;
+        private readonly IDataRepository<RoleEntity> _roleRepository;
+
+        public UserController(IDataRepository<UserEntity> userRepository, IDataRepository<RoleEntity> roleRepository)
+        {
+            _userRepository = userRepository;
+            _roleRepository = roleRepository;
+        }
+
         [Route("/users")]
         [HttpGet]
         public async Task<IActionResult> List()
         {
-            List<UserListItemViewModel> users = await dbContext.Users
+            var users = await _userRepository.GetAllAsync();
+            var userListViewModel = users
                 .Where(u => u.RoleId != 1)
                 .Select(u => new UserListItemViewModel
                 {
@@ -19,20 +30,20 @@ namespace App.Admin.Controllers
                     FirstName = u.FirstName,
                     LastName = u.LastName,
                     Email = u.Email,
-                    Role = u.Role.Name,
+                    Role = u.Role != null ? u.Role.Name : "Buyer", // Null kontrolü eklendi
                     Enabled = u.Enabled,
                     HasSellerRequest = u.HasSellerRequest
                 })
-                .ToListAsync();
+                .ToList();
 
-            return View(users);
+            return View(userListViewModel);
         }
 
         [Route("/users/{id:int}/approve")]
         [HttpGet]
         public async Task<IActionResult> ApproveSellerRequest([FromRoute] int id)
         {
-            var user = await dbContext.Users.FindAsync(id);
+            var user = await _userRepository.GetByIdAsync(id);
             if (user == null)
             {
                 return NotFound();
@@ -44,26 +55,29 @@ namespace App.Admin.Controllers
             }
 
             user.HasSellerRequest = false;
-            user.RoleId = 2; // seller
-            await dbContext.SaveChangesAsync();
 
+            var sellerRole = await _roleRepository.GetAllAsync();
+            var sellerRoleEntity = sellerRole.FirstOrDefault(r => r.Name == "Seller");
+            if (sellerRoleEntity != null)
+            {
+                user.RoleId = sellerRoleEntity.Id;
+            }
 
+            await _userRepository.UpdateAsync(user);
             return RedirectToAction(nameof(List));
         }
 
         [Route("/users/{id:int}/enable")]
         public async Task<IActionResult> Enable([FromRoute] int id)
         {
-            var user = await dbContext.Users.FindAsync(id);
-
+            var user = await _userRepository.GetByIdAsync(id);
             if (user == null)
             {
                 return NotFound();
             }
 
             user.Enabled = true;
-            await dbContext.SaveChangesAsync();
-
+            await _userRepository.UpdateAsync(user);
             return RedirectToAction(nameof(List));
         }
 
@@ -71,16 +85,14 @@ namespace App.Admin.Controllers
         [Route("/users/{id:int}/disable")]
         public async Task<IActionResult> Disable([FromRoute] int id)
         {
-            var user = await dbContext.Users.FindAsync(id);
-
+            var user = await _userRepository.GetByIdAsync(id);
             if (user == null)
             {
                 return NotFound();
             }
 
             user.Enabled = false;
-            await dbContext.SaveChangesAsync();
-
+            await _userRepository.UpdateAsync(user);
             return RedirectToAction(nameof(List));
         }
     }

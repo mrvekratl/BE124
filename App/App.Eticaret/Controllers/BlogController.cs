@@ -1,10 +1,19 @@
-﻿using App.Data.Infrastructure;
+﻿using App.Data.Entities;
+using App.Data.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 
 namespace App.Eticaret.Controllers
 {
-    public class BlogController(ApplicationDbContext dbContext) : BaseController
+    public class BlogController : BaseController
     {
+
+        private readonly IDataRepository<BlogEntity> _blogRepository;
+
+        public BlogController(IDataRepository<BlogEntity> blogRepository)
+        {
+            _blogRepository = blogRepository;
+        }
+
         [HttpGet("blog")]
         public async Task<IActionResult> Index()
         {

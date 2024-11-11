@@ -18,5 +18,6 @@ namespace App.Eticaret.Models.ViewModels
 
         [Required, MinLength(4), DataType(DataType.Password), Compare(nameof(Password))]
         public string PasswordConfirm { get; set; } = null!;
+        public string Role { get; set; }
     }
 }

@@ -6,16 +6,30 @@ using Microsoft.EntityFrameworkCore;
 
 namespace App.Eticaret.Controllers
 {
-    public class OrderController(ApplicationDbContext dbContext) : BaseController
+    public class OrderController : BaseController
     {
+        private readonly IDataRepository<OrderEntity> _orderRepository;
+        private readonly IDataRepository<OrderItemEntity> _orderItemRepository;
+        private readonly IDataRepository<CartItemEntity> _cartItemRepository;
+
+        public OrderController(
+            IDataRepository<OrderEntity> orderRepository,
+            IDataRepository<OrderItemEntity> orderItemRepository,
+            IDataRepository<CartItemEntity> cartItemRepository)
+        {
+            _orderRepository = orderRepository ?? throw new ArgumentNullException(nameof(orderRepository));
+            _orderItemRepository = orderItemRepository ?? throw new ArgumentNullException(nameof(orderItemRepository));
+            _cartItemRepository = cartItemRepository ?? throw new ArgumentNullException(nameof(cartItemRepository));
+        }
+
         [HttpPost("/order")]
         public async Task<IActionResult> Create([FromForm] CheckoutViewModel model)
         {
             var userId = GetUserId();
 
-            if (userId is null)
+            if (userId == null)
             {
-                return RedirectToAction(nameof(AuthController.Login), "Auth");
+                return RedirectToAction(nameof(AuthController.Login), "Auth", new { returnUrl = Request.Path });
             }
 
             if (!ModelState.IsValid)
@@ -24,12 +38,10 @@ namespace App.Eticaret.Controllers
                 return View(viewModel);
             }
 
-            var cartItems = await dbContext.CartItems
-                .Include(ci => ci.Product)
-                .Where(ci => ci.UserId == userId)
-                .ToListAsync();
+            var cartItems = await _cartItemRepository.GetAllAsync();
+            cartItems = cartItems.Where(ci => ci.UserId == userId).ToList();
 
-            if (cartItems.Count == 0)
+            if (cartItems == null)
             {
                 return RedirectToAction(nameof(CartController.Edit), "Cart");
             }
@@ -38,29 +50,32 @@ namespace App.Eticaret.Controllers
             {
                 UserId = userId.Value,
                 Address = model.Address,
-                OrderCode = await CreateOrderCode(),
+                OrderCode = CreateOrderCode(),
                 CreatedAt = DateTime.UtcNow
             };
 
-            dbContext.Orders.Add(order);
-            await dbContext.SaveChangesAsync();
+            // Add Order to DB using DataRepository
+            await _orderRepository.AddAsync(order);
 
-            foreach (var cartItem in cartItems)
+            var orderItems = cartItems.Select(cartItem => new OrderItemEntity
             {
-                var orderItem = new OrderItemEntity
-                {
-                    OrderId = order.Id,
-                    ProductId = cartItem.ProductId,
-                    Quantity = cartItem.Quantity,
-                    UnitPrice = cartItem.Product.Price,
-                    CreatedAt = DateTime.UtcNow,
-                };
+                OrderId = order.Id,
+                ProductId = cartItem.ProductId,
+                Quantity = cartItem.Quantity,
+                UnitPrice = cartItem.Product.Price,
+                CreatedAt = DateTime.UtcNow,
+            }).ToList();
 
-                dbContext.OrderItems.Add(orderItem);
-                dbContext.CartItems.Remove(cartItem);
+            foreach (var orderItem in orderItems)
+            {
+                await _orderItemRepository.AddAsync(orderItem);
             }
 
-            await dbContext.SaveChangesAsync();
+            // Remove cart items from cart after adding to order
+            foreach (var cartItem in cartItems)
+            {
+                await _cartItemRepository.DeleteAsync(cartItem.Id);
+            }
 
             return RedirectToAction(nameof(Details), new { orderCode = order.OrderCode });
         }
@@ -70,37 +85,39 @@ namespace App.Eticaret.Controllers
         {
             var userId = GetUserId();
 
-            if (userId is null)
+            if (userId == null)
             {
-                return RedirectToAction(nameof(AuthController.Login), "Auth");
+                return RedirectToAction(nameof(AuthController.Login), "Auth", new { returnUrl = Request.Path });
             }
 
-            var order = await dbContext.Orders
-                .Where(o => o.UserId == userId && o.OrderCode == orderCode)
-                .Select(o => new OrderDetailsViewModel
-                {
-                    OrderCode = o.OrderCode,
-                    CreatedAt = o.CreatedAt,
-                    Address = o.Address,
-                    Items = o.OrderItems.Select(oi => new OrderItemViewModel
-                    {
-                        ProductName = oi.Product.Name,
-                        Quantity = oi.Quantity,
-                        UnitPrice = oi.UnitPrice,
-                    }).ToList()
-                })
-                .FirstOrDefaultAsync();
+            var order = await _orderRepository.GetAllAsync();
+            var orderEntity = order.FirstOrDefault(o => o.UserId == userId && o.OrderCode == orderCode);
 
-            if (order is null)
+            if (orderEntity == null)
             {
                 return NotFound();
             }
 
-            return View(order);
+            var orderDetailsViewModel = new OrderDetailsViewModel
+            {
+                OrderCode = orderEntity.OrderCode,
+                CreatedAt = orderEntity.CreatedAt,
+                Address = orderEntity.Address,
+                Items = (await _orderItemRepository.GetAllAsync())
+                    .Where(oi => oi.OrderId == orderEntity.Id)
+                    .Select(oi => new OrderItemViewModel
+                    {
+                        ProductName = oi.Product.Name,
+                        Quantity = oi.Quantity,
+                        UnitPrice = oi.UnitPrice,
+                    })
+                    .ToList()
+            };
+
+            return View(orderDetailsViewModel);
         }
 
-
-        private async Task<string> CreateOrderCode()
+        private string CreateOrderCode()
         {
             return Guid.NewGuid().ToString("n")[..16].ToUpperInvariant();
         }
@@ -109,8 +126,7 @@ namespace App.Eticaret.Controllers
         {
             var userId = GetUserId() ?? -1;
 
-            return await dbContext.CartItems
-                .Include(ci => ci.Product.Images)
+            return (await _cartItemRepository.GetAllAsync())
                 .Where(ci => ci.UserId == userId)
                 .Select(ci => new CartItemViewModel
                 {
@@ -120,8 +136,8 @@ namespace App.Eticaret.Controllers
                     Quantity = ci.Quantity,
                     Price = ci.Product.Price
                 })
-                .ToListAsync();
+                .ToList();
         }
-
     }
+
 }

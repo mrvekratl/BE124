@@ -4,10 +4,25 @@ using App.Eticaret.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
+
 namespace App.Eticaret.Controllers
 {
-    public class CartController(ApplicationDbContext dbContext) : BaseController
+    public class CartController : BaseController
     {
+        private readonly IDataRepository<CartItemEntity> _cartItemRepository;
+        private readonly IDataRepository<ProductEntity> _productRepository;
+        private readonly IDataRepository<ProductImageEntity> _imageRepository;
+
+        public CartController(
+            IDataRepository<CartItemEntity> cartItemRepository,
+            IDataRepository<ProductEntity> productRepository,
+            IDataRepository<ProductImageEntity> imageRepository)
+        {
+            _cartItemRepository = cartItemRepository ?? throw new ArgumentNullException(nameof(cartItemRepository));
+            _productRepository = productRepository ?? throw new ArgumentNullException(nameof(productRepository));
+            _imageRepository = imageRepository ?? throw new ArgumentNullException(nameof(imageRepository));
+        }
+
         [HttpGet("/add-to-cart/{productId:int}")]
         public async Task<IActionResult> AddProduct([FromRoute] int productId)
         {
@@ -18,16 +33,19 @@ namespace App.Eticaret.Controllers
                 return RedirectToAction(nameof(AuthController.Login), "Auth");
             }
 
-            if (!await dbContext.Products.AnyAsync(p => p.Id == productId))
+            var product = await _productRepository.GetByIdAsync(productId);
+            if (product == null)
             {
                 return NotFound();
             }
 
-            var cartItem = await dbContext.CartItems.FirstOrDefaultAsync(ci => ci.UserId == userId && ci.ProductId == productId);
+            var cartItems = await _cartItemRepository.GetAllAsync();
+            var cartItem = cartItems.FirstOrDefault(ci => ci.UserId == userId && ci.ProductId == productId);
 
-            if (cartItem is not null)
+            if (cartItem != null)
             {
                 cartItem.Quantity++;
+                await _cartItemRepository.UpdateAsync(cartItem);  // Update if exists
             }
             else
             {
@@ -39,13 +57,10 @@ namespace App.Eticaret.Controllers
                     CreatedAt = DateTime.UtcNow
                 };
 
-                dbContext.CartItems.Add(cartItem);
+                await _cartItemRepository.AddAsync(cartItem);  // Add new item
             }
 
-            await dbContext.SaveChangesAsync();
-
             var prevUrl = Request.Headers.Referer.FirstOrDefault();
-
             if (prevUrl is null)
             {
                 return RedirectToAction(nameof(Edit));
@@ -64,9 +79,8 @@ namespace App.Eticaret.Controllers
                 return RedirectToAction(nameof(AuthController.Login), "Auth");
             }
 
-            List<CartItemViewModel> cartItem = await GetCartItemsAsync();
-
-            return View(cartItem);
+            List<CartItemViewModel> cartItems = await GetCartItemsAsync();
+            return View(cartItems);
         }
 
         [HttpGet("/cart/{cartItemId:int}/remove")]
@@ -79,15 +93,15 @@ namespace App.Eticaret.Controllers
                 return RedirectToAction(nameof(AuthController.Login), "Auth");
             }
 
-            var cartItem = await dbContext.CartItems.FirstOrDefaultAsync(ci => ci.UserId == userId && ci.Id == cartItemId);
+            var cartItems = await _cartItemRepository.GetAllAsync();
+            var cartItem = cartItems.FirstOrDefault(ci => ci.UserId == userId && ci.Id == cartItemId);
 
-            if (cartItem is null)
+            if (cartItem == null)
             {
                 return NotFound();
             }
 
-            dbContext.CartItems.Remove(cartItem);
-            await dbContext.SaveChangesAsync();
+            await _cartItemRepository.DeleteAsync(cartItem.Id);  // Delete cart item by Id
 
             return RedirectToAction(nameof(Edit));
         }
@@ -102,23 +116,22 @@ namespace App.Eticaret.Controllers
                 return RedirectToAction(nameof(AuthController.Login), "Auth");
             }
 
-            var cartItem = await dbContext.CartItems
-                .Include(ci => ci.Product.Images)
-                .FirstOrDefaultAsync(ci => ci.UserId == userId && ci.Id == cartItemId);
+            var cartItems = await _cartItemRepository.GetAllAsync();
+            var cartItem = cartItems.FirstOrDefault(ci => ci.UserId == userId && ci.Id == cartItemId);
 
-            if (cartItem is null)
+            if (cartItem == null)
             {
                 return NotFound();
             }
 
             cartItem.Quantity = quantity;
-            await dbContext.SaveChangesAsync();
+            await _cartItemRepository.UpdateAsync(cartItem);  // Update the cart item
 
             var model = new CartItemViewModel
             {
                 Id = cartItem.Id,
                 ProductName = cartItem.Product.Name,
-                ProductImage = cartItem.Product.Images.Count != 0 ? cartItem.Product.Images.First().Url : null,
+                ProductImage = cartItem.Product.Images.FirstOrDefault()?.Url,
                 Quantity = cartItem.Quantity,
                 Price = cartItem.Product.Price
             };
@@ -137,7 +150,6 @@ namespace App.Eticaret.Controllers
             }
 
             List<CartItemViewModel> cartItems = await GetCartItemsAsync();
-
             return View(cartItems);
         }
 
@@ -145,18 +157,20 @@ namespace App.Eticaret.Controllers
         {
             var userId = GetUserId() ?? -1;
 
-            return await dbContext.CartItems
-                .Include(ci => ci.Product.Images)
+            var cartItems = await _cartItemRepository.GetAllAsync();
+            return cartItems
                 .Where(ci => ci.UserId == userId)
                 .Select(ci => new CartItemViewModel
                 {
                     Id = ci.Id,
                     ProductName = ci.Product.Name,
-                    ProductImage = ci.Product.Images.Count != 0 ? ci.Product.Images.First().Url : null,
+                    ProductImage = ci.Product.Images.FirstOrDefault()?.Url,
                     Quantity = ci.Quantity,
                     Price = ci.Product.Price
                 })
-                .ToListAsync();
+                .ToList();
         }
     }
+
+
 }

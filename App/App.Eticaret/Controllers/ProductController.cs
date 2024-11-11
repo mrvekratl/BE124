@@ -7,8 +7,22 @@ using Microsoft.EntityFrameworkCore;
 namespace App.Eticaret.Controllers
 {
     [Route("/product")]
-    public class ProductController(ApplicationDbContext dbContext) : BaseController
+    public class ProductController : BaseController
     {
+        private readonly IDataRepository<ProductEntity> _productRepository;
+        private readonly IDataRepository<ProductImageEntity> _productImageRepository;
+        private readonly IDataRepository<ProductCommentEntity> _productCommentRepository;
+
+        public ProductController(
+            IDataRepository<ProductEntity> productRepository,
+            IDataRepository<ProductImageEntity> productImageRepository,
+            IDataRepository<ProductCommentEntity> productCommentRepository)
+        {
+            _productRepository = productRepository;
+            _productImageRepository = productImageRepository;
+            _productCommentRepository = productCommentRepository;
+        }
+
         [HttpGet("")]
         public IActionResult Create()
         {
@@ -33,12 +47,9 @@ namespace App.Eticaret.Controllers
                 Description = newProductModel.Description,
                 StockAmount = newProductModel.StockAmount,
                 CreatedAt = DateTime.UtcNow
-
             };
 
-            dbContext.Products.Add(productEntity);
-            await dbContext.SaveChangesAsync();
-
+            await _productRepository.AddAsync(productEntity);
             await SaveProductImages(productEntity.Id, newProductModel.Images);
 
             ViewBag.SuccessMessage = "Ürün başarıyla eklendi.";
@@ -57,8 +68,7 @@ namespace App.Eticaret.Controllers
                     Url = $"/uploads/{Guid.NewGuid()}{Path.GetExtension(image.FileName)}"
                 };
 
-                dbContext.ProductImages.Add(productImageEntity);
-                await dbContext.SaveChangesAsync();
+                await _productImageRepository.AddAsync(productImageEntity);
 
                 await using var fileStream = new FileStream($"wwwroot{productImageEntity.Url}", FileMode.Create);
                 await image.CopyToAsync(fileStream);
@@ -68,7 +78,7 @@ namespace App.Eticaret.Controllers
         [HttpGet("{productId:int}/edit")]
         public async Task<IActionResult> Edit([FromRoute] int productId)
         {
-            var productEntity = await dbContext.Products.FindAsync(productId);
+            var productEntity = await _productRepository.GetByIdAsync(productId);
             if (productEntity is null)
             {
                 return NotFound();
@@ -95,8 +105,7 @@ namespace App.Eticaret.Controllers
                 return View(editProductModel);
             }
 
-            var productEntity = await dbContext.Products.FindAsync(productId);
-
+            var productEntity = await _productRepository.GetByIdAsync(productId);
             if (productEntity is null)
             {
                 return NotFound();
@@ -109,7 +118,7 @@ namespace App.Eticaret.Controllers
             productEntity.Description = editProductModel.Description;
             productEntity.StockAmount = editProductModel.StockAmount;
 
-            await dbContext.SaveChangesAsync();
+            await _productRepository.UpdateAsync(productEntity);
 
             ViewBag.SuccessMessage = "Ürün başarıyla güncellendi.";
 
@@ -119,14 +128,13 @@ namespace App.Eticaret.Controllers
         [HttpGet("{productId:int}/delete")]
         public async Task<IActionResult> Delete([FromRoute] int productId)
         {
-            var productEntity = await dbContext.Products.FindAsync(productId);
+            var productEntity = await _productRepository.GetByIdAsync(productId);
             if (productEntity is null)
             {
                 return NotFound();
             }
 
-            dbContext.Products.Remove(productEntity);
-            await dbContext.SaveChangesAsync();
+            await _productRepository.DeleteAsync(productId);
 
             ViewBag.SuccessMessage = "Ürün başarıyla silindi.";
 
@@ -148,12 +156,13 @@ namespace App.Eticaret.Controllers
                 return BadRequest();
             }
 
-            if (!await dbContext.Products.AnyAsync(x => x.Id == productId))
+            var productEntity = await _productRepository.GetByIdAsync(productId);
+            if (productEntity == null)
             {
                 return NotFound();
             }
 
-            if (await dbContext.ProductComments.AnyAsync(x => x.ProductId == productId && x.UserId == userId))
+            if (await _productCommentRepository.GetAllAsync() is var comments && comments.Any(x => x.ProductId == productId && x.UserId == userId))
             {
                 return BadRequest();
             }
@@ -167,10 +176,10 @@ namespace App.Eticaret.Controllers
                 CreatedAt = DateTime.UtcNow,
             };
 
-            dbContext.ProductComments.Add(productCommentEntity);
-            await dbContext.SaveChangesAsync();
+            await _productCommentRepository.AddAsync(productCommentEntity);
 
             return Ok();
         }
     }
+
 }

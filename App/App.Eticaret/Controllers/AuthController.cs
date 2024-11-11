@@ -1,13 +1,27 @@
 ﻿using App.Data.Entities;
 using App.Data.Infrastructure;
 using App.Eticaret.Models.ViewModels;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace App.Eticaret.Controllers
 {
-    public class AuthController(ApplicationDbContext dbContext) : BaseController
+    
+
+    public class AuthController : Controller
     {
+        private readonly IDataRepository<UserEntity> _userRepository;
+
+        public AuthController(IDataRepository<UserEntity> userRepository)
+        {
+            _userRepository = userRepository;
+        }
+
+        // Kayıt sayfası
         [Route("/register")]
         [HttpGet]
         public IActionResult Register()
@@ -15,6 +29,7 @@ namespace App.Eticaret.Controllers
             return View();
         }
 
+        // Kayıt işlemi
         [Route("/register")]
         [HttpPost]
         public async Task<IActionResult> Register([FromForm] RegisterUserViewModel newUser)
@@ -24,18 +39,34 @@ namespace App.Eticaret.Controllers
                 return View(newUser);
             }
 
+            // Kullanıcının rolünü kontrol et
+            int userRoleId = 3; // Default Buyer olarak
+            if (newUser.Role == "Seller") // Eğer kullanıcı Seller rolü istiyorsa
+            {
+                userRoleId = 2; // Seller rolü için RoleId 2
+            }
+            else if (newUser.Role == "Admin") // Eğer kullanıcı Admin rolü istiyorsa
+            {
+                userRoleId = 1; // Admin rolü için RoleId 1
+            }
+
+            // Kullanıcıyı oluşturuyoruz
             var user = new UserEntity
             {
                 FirstName = newUser.FirstName,
                 LastName = newUser.LastName,
                 Email = newUser.Email,
-                Password = newUser.Password,
-                RoleId = 3,
+                Password = newUser.Password, // Şifreyi burada hashleyebilirsiniz
+                RoleId = userRoleId, // Yeni kullanıcı rolünü ayarlıyoruz
                 CreatedAt = DateTime.UtcNow,
             };
+            if(user.RoleId == 2)
+            {
+                user.Enabled = false;
+            }
 
-            dbContext.Users.Add(user);
-            await dbContext.SaveChangesAsync();
+            // Kullanıcıyı repository üzerinden ekliyoruz
+            await _userRepository.AddAsync(user);
 
             ViewBag.SuccessMessage = "Kayıt işlemi başarılı. Giriş yapabilirsiniz.";
             ModelState.Clear();
@@ -43,6 +74,8 @@ namespace App.Eticaret.Controllers
             return View();
         }
 
+
+        // Giriş sayfası
         [Route("/login")]
         [HttpGet]
         public IActionResult Login()
@@ -50,6 +83,7 @@ namespace App.Eticaret.Controllers
             return View();
         }
 
+        // Giriş işlemi
         [Route("/login")]
         [HttpPost]
         public async Task<IActionResult> Login([FromForm] LoginViewModel loginModel)
@@ -59,7 +93,9 @@ namespace App.Eticaret.Controllers
                 return View(loginModel);
             }
 
-            var user = await dbContext.Users.FirstOrDefaultAsync(u => u.Email == loginModel.Email && u.Password == loginModel.Password);
+            // Kullanıcıyı repository üzerinden alıyoruz
+            var users = await _userRepository.GetAllAsync();
+            var user = users.FirstOrDefault(u => u.Email == loginModel.Email && u.Password == loginModel.Password);
 
             if (user == null)
             {
@@ -72,22 +108,47 @@ namespace App.Eticaret.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        // Kullanıcıyı oturum açtırma
         private async Task LogInAsync(UserEntity user)
         {
-            if (user == null)
+            if (user == null || !user.Enabled)
             {
                 return;
             }
 
-            SetCookie("userId", user.Id.ToString());
-            SetCookie("mail", user.Email);
-            SetCookie("name", user.FirstName);
-            SetCookie("surname", user.LastName);
-            SetCookie("role", user.RoleId.ToString());
+            var claims = new List<Claim>
+        {
+            new Claim(ClaimTypes.Name, user.FirstName + " " + user.LastName),
+            new Claim(ClaimTypes.Email, user.Email),
+            new Claim(ClaimTypes.Role, user.RoleId.ToString()), // Kullanıcının rolü
+            new Claim("userId", user.Id.ToString()) // Kullanıcının Id'si
+        };
+
+            var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            var principal = new ClaimsPrincipal(identity);
+
+            // Kullanıcıyı oturum açtırıyoruz
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
 
             await Task.CompletedTask;
         }
 
+        // Çıkış işlemi
+        [Route("/logout")]
+        [HttpGet]
+        public async Task<IActionResult> Logout()
+        {
+            // Manual olarak cookie'leri temizle
+            Response.Cookies.Delete("userId");
+            Response.Cookies.Delete("mail");
+            Response.Cookies.Delete("name");
+            Response.Cookies.Delete("surname");
+            Response.Cookies.Delete("role");
+
+            return RedirectToAction(nameof(Login));
+        }
+
+        // Şifre unuttum sayfası
         [Route("/forgot-password")]
         [HttpGet]
         public IActionResult ForgotPassword()
@@ -95,6 +156,7 @@ namespace App.Eticaret.Controllers
             return View();
         }
 
+        // Şifre sıfırlama işlemi
         [Route("/forgot-password")]
         [HttpPost]
         public async Task<IActionResult> ForgotPassword([FromForm] ForgotPasswordViewModel model)
@@ -104,16 +166,18 @@ namespace App.Eticaret.Controllers
                 return View(model);
             }
 
-            var user = await dbContext.Users.FirstOrDefaultAsync(u => u.Email == model.Email);
+            // Kullanıcıyı repository üzerinden alıyoruz
+            var users = await _userRepository.GetAllAsync();
+            var foundUser = users.FirstOrDefault(u => u.Email == model.Email);
 
-            if (user == null)
+            if (foundUser == null)
             {
                 ModelState.AddModelError(string.Empty, "Kullanıcı bulunamadı.");
                 return View(model);
             }
 
-            // Şifre sıfırlama kodu oluşturulacak ve kullanıcıya mail gönderilecek...
-            await SendResetPasswordEmailAsync(user);
+            // Şifre sıfırlama işlemi yapılacak (Örn: E-posta gönderme)
+            await SendResetPasswordEmailAsync(foundUser);
 
             ViewBag.SuccessMessage = "Şifre sıfırlama maili gönderildi. Lütfen e-posta adresinizi kontrol edin.";
             ModelState.Clear();
@@ -121,52 +185,38 @@ namespace App.Eticaret.Controllers
             return View();
         }
 
+        // Şifre sıfırlama e-postası gönderme (örnek)
         private async Task SendResetPasswordEmailAsync(UserEntity user)
         {
-            // Şifre sıfırlama maili gönderme kodları...
-            // TODO: Authorization implemente edildikten sonra bu metot tamamlanacak...
-            if (user == null)
-            {
-                return;
-            }
-
+            // Burada şifre sıfırlama kodu ve e-posta gönderimi yapılacak...
             await Task.CompletedTask;
         }
 
+        // Şifre yenileme sayfası
         [Route("/renew-password/{verificationCode}")]
         [HttpGet]
         public async Task<IActionResult> RenewPassword([FromRoute] string verificationCode)
         {
-            // TODO: Authorization implemente edildikten sonra bu metot tamamlanacak...
+            // Şifre yenileme sayfasına yönlendirme yapılacak
             return View();
         }
 
+        // Şifre yenileme işlemi
         [Route("/renew-password")]
         [HttpPost]
-        public async Task<IActionResult> RenewPassword([FromForm] object changePasswordModel)
+        public async Task<IActionResult> RenewPassword([FromForm] ForgotPasswordViewModel model)
         {
-            // TODO: Authorization implemente edildikten sonra bu metot tamamlanacak...
+            // Şifre değiştirme işlemi yapılacak
             return View();
         }
 
-        [Route("/logout")]
-        [HttpGet]
-        public async Task<IActionResult> Logout()
+        // Yetkilendirilmiş kullanıcı için admin paneli
+        [Authorize(Roles = "Admin")]
+        [Route("/admin")]
+        public IActionResult AdminPanel()
         {
-            await LogoutUser();
-
-            return RedirectToAction(nameof(Login));
-        }
-
-        private async Task LogoutUser()
-        {
-            // TODO: Authorization implemente edildikten sonra bu metot tamamlanacak...
-
-            RemoveCookie("userId");
-            RemoveCookie("mail");
-            RemoveCookie("name");
-            RemoveCookie("surname");
-            RemoveCookie("role");
+            return View();
         }
     }
+
 }

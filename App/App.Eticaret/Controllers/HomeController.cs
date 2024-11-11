@@ -6,8 +6,22 @@ using Microsoft.EntityFrameworkCore;
 
 namespace App.Eticaret.Controllers
 {
-    public class HomeController(ApplicationDbContext dbContext) : BaseController
+    public class HomeController : BaseController
     {
+        private readonly IDataRepository<ContactFormEntity> _contactFormRepository;
+        private readonly IDataRepository<ProductEntity> _productRepository;
+        private readonly IDataRepository<ProductCommentEntity> _commentRepository;
+
+        public HomeController(
+            IDataRepository<ContactFormEntity> contactFormRepository,
+            IDataRepository<ProductEntity> productRepository,
+            IDataRepository<ProductCommentEntity> commentRepository)
+        {
+            _contactFormRepository = contactFormRepository ?? throw new ArgumentNullException(nameof(contactFormRepository));
+            _productRepository = productRepository ?? throw new ArgumentNullException(nameof(productRepository));
+            _commentRepository = commentRepository ?? throw new ArgumentNullException(nameof(commentRepository));
+        }
+
         public IActionResult Index()
         {
             return View();
@@ -42,8 +56,8 @@ namespace App.Eticaret.Controllers
                 SeenAt = null
             };
 
-            dbContext.ContactForms.Add(contactMessageEntity);
-            await dbContext.SaveChangesAsync();
+            // Add contact message to the repository
+            await _contactFormRepository.AddAsync(contactMessageEntity);
 
             ViewBag.SuccessMessage = "Your message has been sent successfully.";
 
@@ -54,7 +68,7 @@ namespace App.Eticaret.Controllers
         public async Task<IActionResult> Listing()
         {
             // TODO: add paging support
-            var products = await dbContext.Products
+            var products = (await _productRepository.GetAllAsync())
                 .Where(p => p.Enabled)
                 .Select(p => new ProductListingViewModel
                 {
@@ -65,7 +79,7 @@ namespace App.Eticaret.Controllers
                     DiscountPercentage = p.Discount == null ? null : p.Discount.DiscountRate,
                     ImageUrl = p.Images.Count != 0 ? p.Images.First().Url : null
                 })
-                .ToListAsync();
+                .ToList();
 
             return View(products);
         }
@@ -73,7 +87,7 @@ namespace App.Eticaret.Controllers
         [HttpGet("/product/{productId:int}/details")]
         public async Task<IActionResult> ProductDetail([FromRoute] int productId)
         {
-            var product = await dbContext.Products
+            var product = (await _productRepository.GetAllAsync())
                 .Where(p => p.Enabled && p.Id == productId)
                 .Select(p => new HomeProductDetailViewModel
                 {
@@ -96,9 +110,9 @@ namespace App.Eticaret.Controllers
                             UserName = c.User.FirstName + " " + c.User.LastName
                         }).ToArray()
                 })
-                .FirstOrDefaultAsync();
+                .FirstOrDefault();
 
-            if (product is null)
+            if (product == null)
             {
                 return NotFound();
             }
@@ -106,4 +120,5 @@ namespace App.Eticaret.Controllers
             return View(product);
         }
     }
+
 }
